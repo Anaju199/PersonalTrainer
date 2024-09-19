@@ -1,0 +1,66 @@
+<div class="container row mx-auto">
+  <div class="container row mx-auto">
+    <div class="col-md-9 align-self-center">
+      <p class="titulo">
+        Clientes
+      </p>
+    </div>
+    <div class="col-md-3 align-self-center">
+      <i class="fa-regular fa-plus"></i><a href="/cadastrarEditarCliente" class="add"> Adicionar Cliente</a>
+    </div>
+  </div>
+  <div class="col-md-12 align-self-center">
+    <div class="d-flex" role="search">
+      <input
+        type="search"
+        class="form-control me-2"
+        placeholder="Digite o nome de quem procura"
+        autofocus
+        [(ngModel)]="filtroCliente"
+        (keyup)="pesquisarCliente()"
+      >
+    </div>
+  </div>
+  <br>
+  <br>
+  <div *ngIf="listaClientes.length > 0, else semCliente">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <!-- <th>N°</th> -->
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>E-mail</th>
+          <!-- <th>Excluir</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let cliente of listaClientes; let i = index">
+          <tr [class.odd]="i % 2 === 0" [class.even]="i % 2 !== 0">
+            <!-- <td><a class="listaAdm" href="/cadastrarEditarCliente/{{ cliente.id }}">{{ cliente.numero }}</a></td> -->
+            <td><a class="listaAdm" href="/cadastrarEditarCliente/{{ cliente.id }}">{{ cliente.nome }}</a></td>
+            <td><a class="listaAdm" href="/cadastrarEditarCliente/{{ cliente.id }}">{{ cliente.cpf }}</a></td>
+            <td><a class="listaAdm" href="/cadastrarEditarCliente/{{ cliente.id }}">{{ cliente.email }}</a></td>
+            <!-- <td><button class="botaoExcluir" (click)="excluir(cliente.id)"><i class="fa-regular fa-trash-can"></i></button></td> -->
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex flex-column align-items-center">
+    <div class="d-flex flex-wrap gap-3" *ngIf="totalPaginas > 1">
+      <button (click)="paginaAnterior()" [ngClass]="habilitarBotao('anterior')" [disabled]="habilitarBotao('anterior') === 'botao_pag_desabilitado'">Anterior</button>
+      <button (click)="proximaPagina()" [ngClass]="habilitarBotao('proxima')" [disabled]="habilitarBotao('proxima') === 'botao_pag_desabilitado'">Próxima</button>
+    </div>
+    <br/>
+    <div class="d-flex flex-wrap gap-3">
+      <button (click)="voltar()" class="botao">Voltar para página do administrador</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #semCliente>
+  <div class="ff-inter centralizar">
+    <p>Não há nenhuma cliente cadastrado</p>
+  </div>
+</ng-template>
