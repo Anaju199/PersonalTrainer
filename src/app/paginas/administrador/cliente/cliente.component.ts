@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UsuariosService } from '../clientes/usuario.service';
+import { RespostaService } from '../perguntas/questionario/resposta.service';
+import { Resposta } from '../perguntas/questionario/questionario';
+import { Usuario } from '../../pagamentos/tipos';
 
 @Component({
   selector: 'app-cliente',
@@ -7,9 +13,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClienteComponent implements OnInit {
 
-  constructor() { }
+  cliente!: Usuario;
+  filtroResposta: string = ''
+  listaRespostas: Resposta[] = []
+  // id: number = 0
+
+  constructor(
+    private service: UsuariosService,
+    private respostaService: RespostaService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+
+    const id = this.route.snapshot.paramMap.get('id')
+
+    this.service.buscarPorId(parseInt(id!)).subscribe((cliente) => {
+      this.cliente = cliente
+    })
+
+    this.respostaService.listar(this.filtroResposta, parseInt(id!)).subscribe((listaRespostas) => {
+      this.listaRespostas = listaRespostas
+    })
   }
 
 }

@@ -9,7 +9,6 @@
 .ff-roboto-mono { font-family: 'Roboto Mono', monospace; }
 
 h1 {
-  position: absolute;
   height: 1px;
   width: 1px;
   overflow: hidden;
@@ -84,6 +83,17 @@ h6 {
   color: #818382;
 }
 
+.botaoExcluir {
+  color: #000a02;
+  background-color: transparent;
+  margin: 0 auto;
+  border-color: #fbfcfb;
+  border: none;
+  margin-left: 10%;
+  transition: 0.5s ease;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 @media (min-width: 576px) {
   .container {
       width: 540px;
@@ -133,7 +143,6 @@ h6 {
 .container_cadastros {
   padding-right: 1rem;
   padding-left: 1rem;
-  padding-top: 1rem;
   padding-bottom: 1rem;
   margin-right: auto;
   margin-left: auto;
@@ -168,6 +177,7 @@ h6 {
   background-color: #ffffff;
   border: none;
   height: 40px;
+  width: 480px;
   padding: 1rem 2rem;
   border-radius: 10px;
   margin: 0.5rem 0 2rem;
@@ -191,7 +201,6 @@ h6 {
   margin: 0.5rem 0 2rem;
 }
 
-
 .mensagem__erro {
   font-size: 12px;
   margin-left: 5px;
@@ -210,16 +219,6 @@ h6 {
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-.select {
-  border-style: solid;
-  border: black;
-  height: 53px;
-  padding: 1rem 2rem;
-  width: 400px;
-  border-radius: 10px;
-  margin: 0.5rem 0 2rem;
 }
 
 .listaAdm{

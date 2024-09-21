@@ -10,19 +10,27 @@ import { UserService } from 'src/app/paginas/pagamentos/services/user.service';
 })
 export class MenuComponent implements OnInit {
 
+  isAdmin: boolean = false;
+  isUser: boolean = false;
+
   constructor(
     private userService: UserService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    const role = this.userService.retornarUserRole();
+    this.isAdmin = role === 'admin';
+    this.isUser = role === 'user';
   }
 
   user$ = this.userService.retornarUser();
   nome = this.userService.retornarNome();
+  id = this.userService.retornarId();
 
   logout() {
     this.userService.logout();
-    this.router.navigate(['/login'])
+    window.location.href = '/login'
+    // this.router.navigate(['/login'])
   }
 }

@@ -16,6 +16,11 @@ import { AuthGuard } from './paginas/pagamentos/core/guards/auth.guard';
 import { EnderecoComponent } from './paginas/pagamentos/endereco/cadastro-endereco/endereco.component';
 import { PedidosLinkComponent } from './paginas/pagamentos/pedidos-link/pedidos-link.component';
 import { NotificacoesComponent } from './paginas/pagamentos/notificacoes/notificacoes.component';
+import { QuestionarioComponent } from './paginas/administrador/perguntas/questionario/questionario.component';
+import { CadastrarEditarPerguntasComponent } from './paginas/administrador/perguntas/cadastrar-editar-perguntas/cadastrar-editar-perguntas.component';
+import { ListarPerguntasComponent } from './paginas/administrador/perguntas/listar-perguntas/listar-perguntas.component';
+import { ClienteComponent } from './paginas/administrador/cliente/cliente.component';
+import { SobreMimComponent } from './paginas/sobre-mim/sobre-mim.component';
 
 const routes: Routes = [
   {
@@ -44,12 +49,12 @@ const routes: Routes = [
     component: PaginaInicialComponent
   },
   {
-    path: 'erro',
-    component: ErroContatoComponent
+    path: 'sobreMim',
+    component: SobreMimComponent
   },
   {
-    path: 'clientes',
-    component: ClientesComponent
+    path: 'erro',
+    component: ErroContatoComponent
   },
   {
     path: 'login',
@@ -83,6 +88,50 @@ const routes: Routes = [
     path: 'endereco',
     component: EnderecoComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'editarCliente/:id',
+    component: CadastroComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'alterarSenha/:id',
+    component: CadastroComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'clientes',
+    component: ClientesComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'admin' } // Apenas administradores têm acesso
+  },
+  {
+    path: 'cliente/:id',
+    component: ClienteComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'questionario',
+    component: QuestionarioComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'cadastrarEditarPergunta/:id',
+    component: CadastrarEditarPerguntasComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'admin' } // Apenas administradores têm acesso
+  },
+  {
+    path: 'cadastrarEditarPergunta',
+    component: CadastrarEditarPerguntasComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'admin' } // Apenas administradores têm acesso
+  },
+  {
+    path: 'listarPerguntas',
+    component: ListarPerguntasComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'admin' } // Apenas administradores têm acesso
   },
   {
     path: 'notificacoes',

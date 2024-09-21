@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 @Injectable({
@@ -12,9 +11,17 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const expectedRole = route.data['expectedRole']; // Obtém a função esperada da rota
+
     if (this.userService.estaLogado()) {
-      return true;
+      const userRole = this.userService.retornarUserRole(); // Obtém a função do usuário
+      if (!expectedRole || userRole === expectedRole) {
+        return true;
+      } else {
+        this.router.navigate(['/unauthorized']); // Redireciona para uma página de acesso negado
+        return false;
+      }
     } else {
       this.router.navigate(['/login']);
       return false;

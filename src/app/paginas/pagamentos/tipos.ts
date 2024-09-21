@@ -7,6 +7,7 @@ export interface Usuario {
   celular: string;
   senha: string;
   cliente: boolean;
+  administrador: boolean;
 }
 
 export interface Endereco {

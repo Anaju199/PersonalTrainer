@@ -11,20 +11,34 @@
         <li class="nav-item ff-inter">
           <a class="nav-link" href="/sobreMim">Sobre Mim</a>
         </li>
-        <ng-container *ngIf="user$ | async as Usuario">
+        <ng-container *ngIf="isAdmin">
           <li class="nav-item ff-inter">
             <a class="nav-link" href="/clientes">Clientes</a>
           </li>
         </ng-container>
-        <!-- <ng-container *ngIf="user$ | async as Usuario">
+        <ng-container *ngIf="isAdmin">
           <li class="nav-item ff-inter">
-            <a class="nav-link" href="/pedidosLink">Pagamentos Link</a>
+            <a class="nav-link" href="/listarPerguntas">Perguntas</a>
           </li>
-        </ng-container> -->
+        </ng-container>
+        <ng-container *ngIf="isUser">
+          <li class="nav-item ff-inter">
+            <a class="nav-link" href="/questionario">Questionário</a>
+          </li>
+        </ng-container>
       </ul>
     </div>
     <ng-container *ngIf="user$ | async as Usuario, else login">
-      <h6 class="nav-item ff-inter">Olá {{nome}}</h6>
+      <!-- <a class="nav-item ff-inter dropdown-toggle" data-bs-toggle="dropdown">Olá {{nome}}</a> -->
+      <li class="nav-item dropdown">
+        <a class="nav-item ff-inter dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Olá {{nome}}
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item text-start" href="/editarCliente/{{ id }}">Meu perfil</a></li>
+          <li><a class="dropdown-item text-start" [routerLink]="['/alterarSenha', id]" [queryParams]="{ alterarSenha: true }">Alterar Senha</a></li>
+        </ul>
+      </li>
       <button class="btn btn-outline-dark" style="color: rgb(0, 0, 0);" (click)="logout()">Sair</button>
     </ng-container>
   </div>
