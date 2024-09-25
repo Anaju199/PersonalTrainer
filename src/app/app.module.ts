@@ -1,4 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,6 +30,10 @@ import { AutenticacaoInterceptor } from './paginas/pagamentos/core/interceptors/
 import { EditarEnderecoComponent } from './paginas/pagamentos/endereco/editar-endereco/editar-endereco.component';
 import { ClienteComponent } from './paginas/administrador/cliente/cliente.component';
 import { SobreMimComponent } from './paginas/sobre-mim/sobre-mim.component';
+import { QuestionarioComponent } from './paginas/administrador/perguntas/questionario/questionario.component';
+import { ListarPerguntasComponent } from './paginas/administrador/perguntas/listar-perguntas/listar-perguntas.component';
+import { CadastrarEditarPerguntasComponent } from './paginas/administrador/perguntas/cadastrar-editar-perguntas/cadastrar-editar-perguntas.component';
+import { AutoResizeTextareaDirective } from './directives/auto-resize-textarea.directive';
 
 @NgModule({
   declarations: [
@@ -55,7 +60,11 @@ import { SobreMimComponent } from './paginas/sobre-mim/sobre-mim.component';
     PedidosLinkComponent,
     EditarEnderecoComponent,
     ClienteComponent,
-    SobreMimComponent
+    SobreMimComponent,
+    QuestionarioComponent,
+    ListarPerguntasComponent,
+    CadastrarEditarPerguntasComponent,
+    AutoResizeTextareaDirective
   ],
   imports: [
     BrowserModule,
@@ -64,7 +73,9 @@ import { SobreMimComponent } from './paginas/sobre-mim/sobre-mim.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [{
+  providers: [
+    provideNgxMask(),
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: AutenticacaoInterceptor,
     multi: true

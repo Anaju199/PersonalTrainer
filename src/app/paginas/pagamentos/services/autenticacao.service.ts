@@ -9,6 +9,7 @@ interface AuthResponse {
   access: string;
   user_id: number;
   nome: string;
+  role: string;
 }
 
 
@@ -26,19 +27,20 @@ export class AutenticacaoService {
 
   autenticar(cpf: string, senha: string): Observable<HttpResponse<AuthResponse>> {
     return this.http.post<AuthResponse>(
-      `${this.apiUrl}/login/`,
+      `${this.apiUrl}/login_personal/`,
       { cpf, senha },
       { observe: 'response'}
     ).pipe(
       tap((response) => {
+        console.log(response)
         const authToken = response.body?.access || '';
         this.userService.salvarToken(authToken);
-        this.buscarInfoUsuario(response.body?.user_id, response.body?.nome);
+        this.buscarInfoUsuario(response.body?.user_id, response.body?.nome, response.body?.role);
       })
     );
   }
 
-  private buscarInfoUsuario(userId: number | undefined, nome: string | undefined) {
+  private buscarInfoUsuario(userId: number | undefined, nome: string | undefined, role: string | undefined) {
     if (userId) {
       this.userService.setId(userId);
     } else {
@@ -48,6 +50,11 @@ export class AutenticacaoService {
       this.userService.setNome(nome);
     } else {
       console.error('Nome do usuário não fornecido.');
+    }
+    if (role) {
+      this.userService.setUserRole(role);
+    } else {
+      console.error('Role do usuário não fornecido.');
     }
   }
 }

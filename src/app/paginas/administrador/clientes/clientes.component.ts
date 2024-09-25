@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Cliente } from './cliente';
-import { ClientesService } from './clientes.service';
+import { UsuariosService } from './usuario.service';
+import { Usuario } from '../../pagamentos/tipos';
 
 @Component({
   selector: 'app-clientes',
@@ -9,16 +9,17 @@ import { ClientesService } from './clientes.service';
   styleUrls: ['./clientes.component.css']
 })
 export class ClientesComponent implements OnInit {
-  listaClientes: Cliente[] = [];
+
+  listaClientes: Usuario[] = [];
   paginaAtual: number = 1;
   totalPaginas: number = 1;
   itensPorPagina: number = 10;
-  filtroCliente: string = ''
-  mes: string = ''
-  ano: number = -1
+  filtroNome: string = ''
+  cliente: string = 'True'
+  adm: string = 'False'
 
   constructor(
-    private service: ClientesService,
+    private service: UsuariosService,
     private router: Router
   ) { }
 
@@ -75,14 +76,14 @@ export class ClientesComponent implements OnInit {
   }
 
 
-  excluir(id: number) {
-    if (confirm('Tem certeza que deseja excluir?')){
-      this.service.excluir(id).subscribe(() => {
-        alert('Cliente excluido com sucesso.')
-        this.recarregarComponente()
-      })
-    }
-  }
+  // excluir(id: number) {
+  //   if (confirm('Tem certeza que deseja excluir?')){
+  //     this.service.excluir(id).subscribe(() => {
+  //       alert('Cliente excluido com sucesso.')
+  //       this.recarregarComponente()
+  //     })
+  //   }
+  // }
 
   recarregarComponente(){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false
@@ -90,11 +91,23 @@ export class ClientesComponent implements OnInit {
     this.router.navigate([this.router.url])
   }
 
-  pesquisarCliente(){
-    this.service.listar(this.filtroCliente)
+  pesquisarCliente(event: Event) {
+    const target = event.target as HTMLInputElement | HTMLSelectElement;
+
+    if (target.type === 'select-one') {
+      if (target.id === 'cliente') {
+        this.cliente = target.value;
+      } else if (target.id === 'adm') {
+        this.adm = target.value;
+      }
+    } else if (target.type === 'search') {
+      this.filtroNome = target.value;
+    }
+
+    this.service.listar(this.filtroNome, this.cliente, this.adm)
       .subscribe(listaTodosClientes => {
         this.listaClientes = listaTodosClientes;
-
       });
   }
+
 }
