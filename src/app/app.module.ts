@@ -1,5 +1,4 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -73,9 +72,7 @@ import { AutoResizeTextareaDirective } from './directives/auto-resize-textarea.d
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [
-    provideNgxMask(),
-    {
+  providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AutenticacaoInterceptor,
     multi: true
