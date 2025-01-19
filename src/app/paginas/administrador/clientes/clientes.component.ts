@@ -34,19 +34,6 @@ export class ClientesComponent implements OnInit {
     })
   }
 
-  // carregarClientes() {
-  //   this.service.listarTodos(this.paginaAtual, this.itensPorPagina).subscribe((response) => {
-  //     this.listaClientes = response.results.map((membro: Cliente) => {
-  //       return {
-  //         ...membro,
-  //         // Mantém a data no formato de string, pois já está em ISO
-  //         dataNascimento: membro.data_nascimento
-  //       };
-  //     });
-  //     this.totalPaginas = Math.ceil(response.count / this.itensPorPagina);
-  //   });
-  // }
-
   proximaPagina(): void {
     if (this.paginaAtual < this.totalPaginas) {
       this.paginaAtual++;
@@ -71,11 +58,6 @@ export class ClientesComponent implements OnInit {
     return 'botao_pag';
   }
 
-  voltar() {
-    this.router.navigate(['/administrador'])
-  }
-
-
   // excluir(id: number) {
   //   if (confirm('Tem certeza que deseja excluir?')){
   //     this.service.excluir(id).subscribe(() => {
@@ -85,11 +67,11 @@ export class ClientesComponent implements OnInit {
   //   }
   // }
 
-  recarregarComponente(){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false
-    this.router.onSameUrlNavigation = 'reload'
-    this.router.navigate([this.router.url])
-  }
+  // recarregarComponente(){
+  //   this.router.routeReuseStrategy.shouldReuseRoute = () => false
+  //   this.router.onSameUrlNavigation = 'reload'
+  //   this.router.navigate([this.router.url])
+  // }
 
   pesquisarCliente(event: Event) {
     const target = event.target as HTMLInputElement | HTMLSelectElement;

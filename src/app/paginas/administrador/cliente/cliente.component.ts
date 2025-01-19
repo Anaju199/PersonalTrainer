@@ -21,6 +21,7 @@ export class ClienteComponent implements OnInit {
   constructor(
     private service: UsuariosService,
     private respostaService: RespostaService,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
@@ -35,6 +36,10 @@ export class ClienteComponent implements OnInit {
     this.respostaService.listar(this.filtroResposta, parseInt(id!)).subscribe((listaRespostas) => {
       this.listaRespostas = listaRespostas
     })
+  }
+
+  voltar() {
+    this.router.navigate(['/clientes'])
   }
 
 }
