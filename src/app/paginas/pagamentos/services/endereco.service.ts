@@ -8,9 +8,9 @@ import { Endereco } from '../tipos';
   providedIn: 'root'
 })
 export class EnderecoService {
-  private readonly API = environment.apiUrl + '/aj_usuarios_enderecos'
-  private readonly API_LISTA = environment.apiUrl + '/aj_lista_enderecos/'
-  private readonly API_LISTA_PRINCIPAL = environment.apiUrl + '/aj_lista_endereco_principal/'
+  private readonly API = environment.apiUrl + 'usuarios_enderecos'
+  private readonly API_LISTA = environment.apiUrl + 'lista_enderecos/'
+  private readonly API_LISTA_PRINCIPAL = environment.apiUrl + 'lista_endereco_principal/'
 
   constructor(private http: HttpClient) { }
 

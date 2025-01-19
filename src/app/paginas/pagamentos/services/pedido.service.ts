@@ -8,9 +8,9 @@ import { Pedido, Usuario } from '../tipos';
   providedIn: 'root'
 })
 export class PedidoService {
-  private readonly API = environment.apiUrl + '/aj_pedidos'
-  private readonly API_LISTA = environment.apiUrl + '/aj_lista_pedidos/'
-  private readonly API_LISTA_USUARIO = environment.apiUrl + '/aj_lista_usuarios/'
+  private readonly API = environment.apiUrl + 'pedidos'
+  private readonly API_LISTA = environment.apiUrl + 'lista_pedidos/'
+  private readonly API_LISTA_USUARIO = environment.apiUrl + 'lista_usuarios/'
 
   constructor(private http: HttpClient) { }
 

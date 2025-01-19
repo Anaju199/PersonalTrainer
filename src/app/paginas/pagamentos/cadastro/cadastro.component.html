@@ -1,7 +1,7 @@
+<header class="header">
+  <h2>{{ titulo }}</h2>
+</header>
 <section class="container_cadastros fomulario ff-inter">
-  <header class="header">
-    <h2>{{ titulo }}</h2>
-  </header>
   <form [formGroup]="formulario">
 
     <div *ngIf="!alterarSenha">
@@ -28,9 +28,11 @@
         formControlName="cpf"
         placeholder="Digite o CPF"
       >
-      <div class="mensagem__erro"
-      *ngIf="formulario.get('cpf')?.errors && formulario.get('cpf')?.touched">
-        CPF é Obrigatório!
+      <div class="mensagem__erro" *ngIf="formulario.get('cpf')?.hasError('required') && formulario.get('cpf')?.touched">
+        CPF é obrigatório.
+      </div>
+      <div class="mensagem__erro" *ngIf="formulario.get('cpf')?.hasError('cpfInvalido')">
+        CPF inválido.
       </div>
 
       <label for="email">E-mail</label>
@@ -41,25 +43,54 @@
         formControlName="email"
         placeholder="Digite o email"
       >
-      <!-- <div class="mensagem__erro"
+      <!-- Campo obrigatório para compras-->
+      <div class="mensagem__erro"
       *ngIf="formulario.get('email')?.errors && formulario.get('email')?.touched">
         E-mail é Obrigatório!
-      </div> -->
+      </div>
 
-      <label for="celular">Celular</label>
+      
+      <!-- Campo obrigatório para compras-->
+    <label for="celular_pais">Celular</label>
+    <div>
+      <input
+        type="number"
+        class="input"
+        maxlength="2"
+        style="width: 90px; margin-left: 0.2rem;"
+        id="celular_pais"
+        formControlName="celular_pais"
+        placeholder="55"
+      >
+
+      <label for="celular_ddd"></label>
+      <input
+        type="number"
+        class="input"
+        style="width: 100px; margin-left: 0.2rem;"
+        id="celular_ddd"
+        maxlength="3"
+        formControlName="celular_ddd"
+        placeholder="DDD"
+      >
+
+      <label for="celular_numero"></label>
       <input
         type="text"
         class="input"
-        id="celular"
-        maxlength="11"
-        formControlName="celular"
+        style="width: 273px; margin-left: 0.2rem;"
+        id="celular_numero"
+        maxlength="9"
+        formControlName="celular_numero"
         placeholder="Digite o número"
-        mask="(00) 00000-0000"
-      />
-      <!-- <div class="mensagem__erro"
-      *ngIf="formulario.get('celular')?.errors && formulario.get('celular')?.touched">
-        Celular é Obrigatório!
-      </div> -->
+      >
+      <div class="mensagem__erro"
+      *ngIf="(formulario.get('celular_numero')?.errors && formulario.get('celular_numero')?.touched) ||
+              (formulario.get('celular_pais')?.errors && formulario.get('celular_pais')?.touched) ||
+              (formulario.get('celular_ddd')?.errors && formulario.get('celular_ddd')?.touched)">
+        Telefone é Obrigatório!
+      </div>
+    </div>
 
     </div>
 
@@ -97,16 +128,9 @@
     <div *ngIf="!alterarSenha">
 
       <div *ngIf="isAdmin">
-        <div class="row mx-auto" >
-          <div class="col-md-6">
-            <input id="cliente" type="checkbox" formControlName="cliente" [checked]="false" selected />
-            <label class="campo__check" for="cliente">Cliente</label>
-          </div>
-
-          <div class="col-md-6">
-            <input id="administrador" type="checkbox" formControlName="administrador" [checked]="false" selected />
-            <label class="campo__check" for="administrador">Administrador</label>
-          </div>
+        <div class="col-md-6">
+          <input id="administrador" type="checkbox" formControlName="administrador" [checked]="false" selected />
+          <label class="campo__check" for="administrador">Administrador</label>
         </div>
       </div>
 
@@ -124,13 +148,15 @@
       </button>
       <button (click)="cancelar()" class="botao_forms">Voltar para página Inicial</button>
     </div>
-
-    <div *ngIf="!alterarSenha">
+    <br/>
+    <div *ngIf="!id">
       <p>Já tem cadastro?
-        <a class="link" routerLink="/login"><u>Faça login!</u></a>
+        <a style="color: black;" routerLink="/login"><u>Faça login!</u></a>
       </p>
+    </div>
+    <div *ngIf="id && !alterarSenha">
       <p>Deseja
-        <a class="link" [routerLink]="['/alterarSenha', id]" [queryParams]="{ alterarSenha: true }"><u>alterar a senha?</u></a>
+        <a style="color: black;" [routerLink]="['/alterarSenha', id]" [queryParams]="{ alterarSenha: true }"><u>alterar a senha?</u></a>
       </p>
     </div>
   </div>

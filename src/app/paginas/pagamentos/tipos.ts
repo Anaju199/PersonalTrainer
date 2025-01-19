@@ -4,7 +4,9 @@ export interface Usuario {
   nome: string;
   cpf: string;
   email: string;
-  celular: string;
+  celular_pais: string;
+  celular_ddd: string;
+  celular_numero: string;
   senha: string;
   cliente: boolean;
   administrador: boolean;

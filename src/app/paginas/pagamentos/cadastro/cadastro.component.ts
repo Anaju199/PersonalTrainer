@@ -12,8 +12,6 @@ import { UserService } from '../services/user.service';
 })
 export class CadastroComponent implements OnInit {
 
-  // @Input()
-
   alterarSenha: boolean = false;
 
   id?: number;
@@ -46,16 +44,25 @@ export class CadastroComponent implements OnInit {
       cpf: ['', Validators.compose([
           Validators.required,
           Validators.minLength(11),
-          Validators.maxLength(11)
+          Validators.maxLength(11), 
+          this.cpfValidator()
       ])],
-      email: [''], //, Validators.compose([
-      //   Validators.required,
-      //   Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
-      // ])
-      celular: [''], //, Validators.compose([
-      //   Validators.required,
-      //   Validators.minLength(8)
-      // ])
+      email: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
+      ])],
+      celular_pais: ['55', Validators.compose([
+        Validators.required,
+        Validators.minLength(2)
+      ])],
+      celular_ddd: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(2)
+      ])],
+      celular_numero: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(8)
+      ])],
       senha: ['', Validators.compose([
         Validators.required
       ])],
@@ -63,7 +70,6 @@ export class CadastroComponent implements OnInit {
         Validators.required,
         this.equalTo('senha')
       ])],
-      cliente: [true],
       administrador: [false]
     });
 
@@ -84,16 +90,25 @@ export class CadastroComponent implements OnInit {
           cpf: [cliente.cpf, Validators.compose([
               Validators.required,
               Validators.minLength(11),
-              Validators.maxLength(11)
+              Validators.maxLength(11), 
+              this.cpfValidator()
           ])],
-          email: [cliente.email], //, Validators.compose([
-          //   Validators.required,
-          //   Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
-          // ])
-          celular: [cliente.celular], //, Validators.compose([
-          //   Validators.required,
-          //   Validators.minLength(8)
-          // ])
+          email: [cliente.email, Validators.compose([
+            Validators.required,
+            Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
+          ])],
+          celular_pais: [cliente.celular_pais, Validators.compose([
+            Validators.required,
+            Validators.minLength(2)
+          ])],
+          celular_ddd: [cliente.celular_ddd, Validators.compose([
+            Validators.required,
+            Validators.minLength(2)
+          ])],
+          celular_numero: [cliente.celular_numero, Validators.compose([
+            Validators.required,
+            Validators.minLength(8)
+          ])],
           senha: [this.alterarSenha ? '' : cliente.senha, Validators.compose([
             Validators.required
           ])],
@@ -101,7 +116,6 @@ export class CadastroComponent implements OnInit {
             Validators.required,
             this.equalTo('senha')
           ])],
-          cliente: [cliente.cliente],
           administrador: [cliente.administrador]
         });
       })
@@ -116,9 +130,10 @@ export class CadastroComponent implements OnInit {
       formData.append('nome', this.formulario.get('nome')!.value);
       formData.append('cpf', this.formulario.get('cpf')!.value);
       formData.append('email', this.formulario.get('email')!.value);
-      formData.append('celular', this.formulario.get('celular')!.value);
+      formData.append('celular_pais', this.formulario.get('celular_pais')!.value);
+      formData.append('celular_ddd', this.formulario.get('celular_ddd')!.value);
+      formData.append('celular_numero', this.formulario.get('celular_numero')!.value);
       formData.append('senha', this.formulario.get('senha')!.value);
-      formData.append('cliente', this.formulario.get('cliente')!.value);
       formData.append('administrador', this.formulario.get('administrador')!.value);
 
       this.service.criar(formData).subscribe(() => {
@@ -139,9 +154,10 @@ export class CadastroComponent implements OnInit {
       formData.append('nome', this.formulario.get('nome')!.value);
       formData.append('cpf', this.formulario.get('cpf')!.value);
       formData.append('email', this.formulario.get('email')!.value);
-      formData.append('celular', this.formulario.get('celular')!.value);
+      formData.append('celular_pais', this.formulario.get('celular_pais')!.value);
+      formData.append('celular_ddd', this.formulario.get('celular_ddd')!.value);
+      formData.append('celular_numero', this.formulario.get('celular_numero')!.value);
       formData.append('senha', this.formulario.get('senha')!.value);
-      formData.append('cliente', this.formulario.get('cliente')!.value);
       formData.append('administrador', this.formulario.get('administrador')!.value);
 
       const id = this.formulario.get('id')!.value;
@@ -178,5 +194,37 @@ export class CadastroComponent implements OnInit {
     } else {
       return 'botao__desabilitado'
     }
+  }
+
+  
+  validarCPF(cpf: string): boolean {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+      return false;
+    }
+  
+    const calcDigito = (base: number) => {
+      let soma = 0;
+      for (let i = 0; i < base; i++) {
+        soma += +cpf[i] * (base + 1 - i);
+      }
+      const resto = soma % 11;
+      return resto < 2 ? 0 : 11 - resto;
+    };
+  
+    const digito1 = calcDigito(9);
+    const digito2 = calcDigito(10);
+  
+    return digito1 === +cpf[9] && digito2 === +cpf[10];
+  }
+
+  cpfValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const cpf = control.value;
+      if (!cpf) {
+        return null;
+      }
+      return this.validarCPF(cpf) ? null : { cpfInvalido: true };
+    };
   }
 }

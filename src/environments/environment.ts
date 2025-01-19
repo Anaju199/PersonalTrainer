@@ -4,10 +4,12 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://127.0.0.1:8000',
+  apiUrl: 'http://127.0.0.1:8000/hom_',
+  // apiUrl: 'https://anajulia.pythonanywhere.com/hom_',
   apiUrlPagSeguro: 'https://sandbox.api.pagseguro.com',
   apiUrlMercadoPago: 'https://api.mercadopago.com',
-  linkSite: 'http://localhost:4200'
+  linkSite: 'http://localhost:4200',
+  login: 'login_personal'
 };
 
 /*

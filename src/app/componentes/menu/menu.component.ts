@@ -13,6 +13,10 @@ export class MenuComponent implements OnInit {
   isAdmin: boolean = false;
   isUser: boolean = false;
 
+  user$ = this.userService.retornarUser();
+  nome = this.userService.retornarNome();
+  id = this.userService.retornarId();
+
   constructor(
     private userService: UserService,
     private router: Router
@@ -23,10 +27,6 @@ export class MenuComponent implements OnInit {
     this.isAdmin = role === 'admin';
     this.isUser = role === 'user';
   }
-
-  user$ = this.userService.retornarUser();
-  nome = this.userService.retornarNome();
-  id = this.userService.retornarId();
 
   logout() {
     this.userService.logout();
